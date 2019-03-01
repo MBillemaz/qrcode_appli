@@ -3,8 +3,9 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
 import { MyApp } from './app.component';
-import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
+import { HistoricPage } from './../pages/historic/historic';
+import { GenerateCodePage } from '../pages/generate-code/generate-code';
+import { ReadCodePage } from '../pages/read-code/read-code';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -14,8 +15,9 @@ import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
-    ListPage
+    GenerateCodePage,
+    HistoricPage,
+    ReadCodePage
   ],
   imports: [
     BrowserModule,
@@ -25,8 +27,9 @@ import { HttpClientModule } from '@angular/common/http';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
-    ListPage
+    GenerateCodePage,
+    HistoricPage,
+    ReadCodePage
   ],
   providers: [
     StatusBar,
