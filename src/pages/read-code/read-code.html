@@ -12,7 +12,7 @@
     <ion-card-content class="readContent">
       <button ion-button secondary (click)="scan()">Scanner</button>
 
-      <input #uploader type="file" (change)="getByImage($event)" crossorigin="anonymous" accept="image/*" hidden="true" />
+      <input #uploader type="file" (change)="getByImage($event)" accept="image/*" hidden="true" />
       <button ion-button secondary type="submit" (click)='uploader.click()'>Uploader un QRCode</button>
 
       <div *ngIf="text != null">Texte : {{text}}</div>

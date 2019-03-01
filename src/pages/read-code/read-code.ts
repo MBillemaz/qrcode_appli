@@ -33,14 +33,14 @@ export class ReadCodePage {
       reader.onloadend = (evt) => {
         const target: any = evt.currentTarget;
 
-        const test = new Image();
+        const image = new Image();
 
-        test.onload = () => {
+        image.onload = () => {
           const qrcode = new jsqrCode();
-          this.text = qrcode.decode(test);
+          this.text = qrcode.decode(image);
         };
 
-        test.src = target.result;
+        image.src = target.result;
 
       }
       reader.readAsDataURL(file);
