@@ -1,3 +1,14 @@
-page-home {
+ion-card {
+    height: 90%;
+}
 
+ion-card-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+input {
+    text-align: center;
 }

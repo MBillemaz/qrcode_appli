@@ -1,3 +1,7 @@
+import { SharingProvider } from './../../providers/sharing/sharing';
+import { HistoricItem } from './../../../typings/storage.d';
+import { QrCodeProvider } from './../../providers/qr-code/qr-code';
+import { StorageProvider } from './../../providers/storage/storage';
 import { Component } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 
@@ -6,32 +10,47 @@ import { NavController, NavParams } from 'ionic-angular';
   templateUrl: 'historic.html'
 })
 export class HistoricPage {
-  selectedItem: any;
-  icons: string[];
-  items: Array<{title: string, note: string, icon: string}>;
-
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
-    // If we navigated to this page, we will have an item available as a nav param
-    this.selectedItem = navParams.get('item');
-
-    // Let's populate this page with some filler content for funzies
-    this.icons = ['flask', 'wifi', 'beer', 'football', 'basketball', 'paper-plane',
-    'american-football', 'boat', 'bluetooth', 'build'];
-
-    this.items = [];
-    for (let i = 1; i < 11; i++) {
-      this.items.push({
-        title: 'Item ' + i,
-        note: 'This is item #' + i,
-        icon: this.icons[Math.floor(Math.random() * this.icons.length)]
-      });
-    }
+  public items: Array<{ text: string, date: string }> = [];
+  public selectedItem: {
+    index: number,
+    qrcode: string
   }
 
-  itemTapped(event, item) {
-    // That's right, we're pushing to ourselves!
-    this.navCtrl.push(HistoricPage, {
-      item: item
-    });
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: StorageProvider, public generator: QrCodeProvider, public sharing: SharingProvider) {
+    this.storage.getHistoric().then((histo) => {
+      const items = histo.map((item) => {
+        return {
+          text: item.text,
+          date: this.getDate(new Date(item.date))
+        }
+      })
+      this.items = items;
+    })
+  }
+
+  getDate(date: Date) {
+    const items = [
+      date.getDate().toString(),
+      date.getMonth().toString(),
+      date.getFullYear().toString(),
+      date.getHours().toString(),
+      date.getMinutes().toString(),
+    ];
+
+    items.forEach((item, index) => {
+      if (item.length < 2) items[index] = '0' + item;
+    })
+    return items[0] + '/' + items[1] + '/' + items[2] + ' ' + items[3] + ':' + items[4]
+  }
+
+  itemTapped(item: HistoricItem, index) {
+    this.generator.generate(item.text).then((url) => this.selectedItem = {
+      index,
+      qrcode: url
+    }).catch((err) => console.error(err));
+  }
+
+  share(item: string) {
+    this.sharing.shareQrCode(item);
   }
 }

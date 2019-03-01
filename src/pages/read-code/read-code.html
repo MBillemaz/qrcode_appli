@@ -1,18 +1,21 @@
-<!--
-  Generated template for the ReadCodePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>readCode</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Lire un QR code</ion-title>
   </ion-navbar>
-
 </ion-header>
 
-
 <ion-content padding>
+  <ion-card>
+    <ion-card-content class="readContent">
+      <button ion-button secondary (click)="scan()">Scanner</button>
 
+      <input #uploader type="file" (change)="getByImage($event)" crossorigin="anonymous" accept="image/*" hidden="true" />
+      <button ion-button secondary type="submit" (click)='uploader.click()'>Uploader un QRCode</button>
+
+      <div *ngIf="text != null">Texte : {{text}}</div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

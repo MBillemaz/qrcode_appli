@@ -9,15 +9,30 @@
 
 <ion-content>
   <ion-list>
-    <button ion-item *ngFor="let item of items" (click)="itemTapped($event, item)">
-      <ion-icon [name]="item.icon" item-start></ion-icon>
-      {{item.title}}
-      <div class="item-note" item-end>
-        {{item.note}}
-      </div>
-    </button>
+    <ion-item ion-item *ngFor="let item of items; let index = index" (click)="itemTapped(item, index)">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            {{item.text}}
+          </ion-col>
+          <ion-col>
+            {{item.date}}
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="selectedItem != null && selectedItem.index == index">
+          <ion-col align-self-center size="10">
+            <img [src]="selectedItem.qrcode" (click)="share(selectedItem.qrcode)" />
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
   </ion-list>
-  <div *ngIf="selectedItem" padding>
-    You navigated here from <b>{{selectedItem.title}}</b>
-  </div>
 </ion-content>
+<!-- 
+{{item.text}}
+<div class="item-note" item-end>
+  {{item.date}}
+</div>
+<div *ngIf="selectedItem != null && selectedItem.index == index">
+  <img [src]="selectedItem.qrcode" (click)="share(selectedItem.qrcode)" />
+</div> -->
